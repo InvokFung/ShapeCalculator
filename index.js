@@ -79,12 +79,12 @@ const getGridSize = () => {
     }
 }
 
-const fillBlock = (x, y) => {
+const fillBlock = (x, y, color) => {
     const setting = getGridSize();
     const bX = setting.bestBorder + (setting.sizePerGrid - setting.bestBorder/setting.blockWanted) * (x-1);
     const bY = setting.bestBorder + (setting.sizePerGrid - setting.bestBorder/setting.blockWanted) * (y-1);
 
-    ctx.fillStyle = "gray";
+    ctx.fillStyle = color;
     ctx.fillRect(bX, bY, setting.gridSize, setting.gridSize );
 }
 
@@ -125,25 +125,9 @@ const drawCircle = () => {
             y: Math.round(length/2)
         }
         let radius = Math.floor(length/2);
-        // let pattern = [];
-        // for (let cX = length; cX > 0; cX--) {
-        //     let cY = Math.round(length*length / cX*cX);
-        //     pattern.push(cX, cY);
-        // }
-        // let topRight = {
-        //     x: center.x + radius,
-        //     y: 0,
-        //     dirX: -1,
-        //     dirY: -1
-        // }
-        // for (let i = length; i > 0; i--) {
-        //     let nextY = pattern[i+1];
-        //     for (let dY = topRight.y; dY < nextY; dY += topRight.dirY) {
-        //         let dX = center.x + pattern;
-        //         let dY = center.y + pattern[i];
-        //         ctx.fillRect( dX, dY, 1, 1 );
-        //     }
-        // }
+        
+        // Base
+        fillBlock(center.x, center.y, "gray");
         for (let deg = 0; deg < 360; deg += 90) {
             let mX = Math.round(Math.cos(degToRad(deg)));
             let mY = Math.round(Math.sin(degToRad(deg)));
@@ -151,7 +135,28 @@ const drawCircle = () => {
             let offset_y = radius * mY;
             let newX = center.x + offset_x;
             let newY = center.y + offset_y;
-            fillBlock(newX, newY);
+            fillBlock(newX, newY, "gray");
+        }
+
+        let pattern = [];
+        // Overlap
+        for (let cX = radius-1; cX > 0; cX--) {
+            let cY = Math.round(Math.sqrt(radius * radius - cX * cX));            
+            pattern.push({cX, cY});
+        }
+        for (let cY = radius-1; cY > 0; cY--) {
+            let cX = Math.round(Math.sqrt(radius * radius - cY * cY));
+            pattern.push({cX, cY});
+        }
+        
+        for (let deg = 45; deg < 360; deg += 90) {
+            let mX = Math.round(Math.cos(degToRad(deg)));
+            let mY = Math.round(Math.sin(degToRad(deg)));
+            for (let i = 0; i < pattern.length; i++) {
+                let dX = center.x + pattern[i].cX * mX;
+                let dY = center.y + pattern[i].cY * mY;
+                fillBlock(dX, dY, "red");
+            }
         }
     }
 
