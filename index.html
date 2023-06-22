@@ -1,0 +1,41 @@
+<html>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="index.css" />
+        <script src="index.js"></script>
+        <title>Shape Calculator</title>
+    </head>
+    <body>
+        <div class="container">
+            <div class="display">
+                <canvas id="render"></canvas>
+            </div>
+            <div class="input">
+                <div>
+                    <span>Width</span>
+                    <input id="c-width" type="number" value="11" />
+                    <span>Height</span>
+                    <input id="c-height" type="number" value="11" />
+                </div>
+                <button id="recenter-btn">Recenter</button>
+                <div>
+                    <div>Border</div>
+                    <select id="border">
+                        <option>thin</option>
+                        <option>thick</option>
+                        <option>filled</option>
+                    </select>
+                </div>
+                <div>
+                    <div>Canvas Scale</div>
+                    <input id="c-scale" type="range" value="20" title="0"/>                    
+                </div>
+            </div>
+        </div>
+    </body>
+    </html>
+</html>
